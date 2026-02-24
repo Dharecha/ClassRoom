@@ -1,0 +1,22 @@
+name: Auto Streak
+
+on:
+  schedule:
+    - cron: '30 4 * * *'  # 10:00 AM India time
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update streak file
+        run: |
+          echo "Streak update $(date)" >> streak.txt
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Daily streak commit"
+          git push
